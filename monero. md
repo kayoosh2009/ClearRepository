@@ -1,9 +1,9 @@
-$r=Invoke-RestMethod https://api.github.com/repos/doktor83/SRBMiner-Multi/releases/latest
-$a=$r.assets | Where-Object name -match 'win64\.zip$' | Select-Object -First 1
-iwr $a.browser_download_url -OutFile srbminer.zip
-New-Item -ItemType Directory -Force srbminer | Out-Null
-Expand-Archive srbminer.zip -DestinationPath .\srbminer -Force
-$dir=Get-ChildItem .\srbminer -Directory | Select-Object -First 1
-if ($dir) { Set-Location $dir.FullName } else { Set-Location .\srbminer }
+$r=Invoke-RestMethod https://api.github.com/repos/MoneroOcean/xmrig/releases/latest
+$a=$r.assets | Where-Object name -match 'win\.zip$' | Select-Object -First 1
+iwr $a.browser_download_url -OutFile xmrig.zip
+New-Item -ItemType Directory -Force moneroocean | Out-Null
+Expand-Archive xmrig.zip -DestinationPath .\moneroocean -Force
+$dir=Get-ChildItem .\moneroocean -Directory | Select-Object -First 1
+if ($dir) { Set-Location $dir.FullName } else { Set-Location .\moneroocean }
 
-.\SRBMiner-MULTI.exe --disable-cpu --disable-gpu-amd --disable-gpu-nvidia --pool gulf.moneroocean.stream:20128 --wallet 44LpbNk5J7HHvgE9on8GdR3in9LSPiFr66pouJoTWZyef4oBcWknubPSGV7qi3ba8yCNqso4T9MqLBvDBsaNQCjo115vahr --worker rig01 --gpu-id 0 --keepalive true --algorithm autolykos2 --password rig01~autolykos2 --tls true
+.\xmrig.exe -o gulf.moneroocean.stream:20004 -u 44LpbNk5J7HHvgE9on8GdR3in9LSPiFr66pouJoTWZyef4oBcWknubPSGV7qi3ba8yCNqso4T9MqLBvDBsaNQCjo115vahr --rig-id rig01 --keepalive --tls
