@@ -1,0 +1,21 @@
+$r=Invoke-RestMethod https://api.github.com/repos/MoneroOcean/multi-miner/releases/latest
+$a=$r.assets | Where-Object name -match 'mm-v.*-win\.zip$' | Select-Object -First 1
+iwr $a.browser_download_url -OutFile mm.zip
+New-Item -ItemType Directory -Force multi-miner | Out-Null
+Expand-Archive mm.zip -DestinationPath .\multi-miner -Force
+Set-Location .\multi-miner
+$r=Invoke-RestMethod https://api.github.com/repos/doktor83/SRBMiner-Multi/releases/latest
+$a=$r.assets | Where-Object name -match 'win64\.zip$' | Select-Object -First 1
+iwr $a.browser_download_url -OutFile srbminer.zip
+Expand-Archive srbminer.zip -DestinationPath .\srbminer -Force
+$dir=Get-ChildItem .\srbminer -Directory | Select-Object -First 1
+if ($dir) { Copy-Item "$($dir.FullName)\*" . -Recurse -Force } else { Copy-Item ".\srbminer\*" . -Recurse -Force }
+$r=Invoke-RestMethod https://api.github.com/repos/MoneroOcean/mo-miner/releases/latest
+$a=$r.assets | Where-Object name -match 'mom-v.*-win\.zip$' | Select-Object -First 1
+iwr $a.browser_download_url -OutFile mom.zip
+Expand-Archive mom.zip -DestinationPath .\mom -Force
+$mdir=Get-ChildItem .\mom -Directory | Select-Object -First 1
+if ($mdir) { Copy-Item "$($mdir.FullName)\*" . -Recurse -Force } else { Copy-Item ".\mom\*" . -Recurse -Force }
+.\install.bat
+
+
