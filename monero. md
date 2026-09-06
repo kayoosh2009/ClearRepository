@@ -19,3 +19,18 @@ if ($mdir) { Copy-Item "$($mdir.FullName)\*" . -Recurse -Force } else { Copy-Ite
 .\install.bat
 
 
+$Wallet="44LpbNk5J7HHvgE9on8GdR3in9LSPiFr66pouJoTWZyef4oBcWknubPSGV7qi3ba8yCNqso4T9MqLBvDBsaNQCjo115vahr"
+$Pool="gulf.moneroocean.stream:ssl20128"
+$LocalProxy="127.0.0.1:3333"
+$Srb=".\SRBMiner-MULTI.exe"
+$Mom=".\mom.cmd"
+$MomJson='{\"dev\":\"gpu1\",\"perf\":1}'
+$GpuFlags="--disable-gpu-amd --disable-gpu-nvidia"
+$Common="$Srb --disable-cpu $GpuFlags --pool $LocalProxy --wallet $Wallet --worker mm --gpu-id 0 --keepalive true --tls false"
+
+.\mm.exe --no-config-save --pool="$Pool" --user="$Wallet" --pass=x --algo_min_time=60 `
+  --autolykos2="$Common --algorithm autolykos2 --password x" `
+  --cn/gpu="$Common --algorithm cryptonight_gpu --password x" `
+  --etchash="$Common --algorithm etchash --password x --esm 2 --nicehash true" `
+  --kawpow="$Common --algorithm kawpow --password x" `
+  --c29="$Mom mine 127.0.0.1:3333 $Wallet x --new.algo_param.c29 '$MomJson'"
